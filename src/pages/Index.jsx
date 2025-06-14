@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../utils/formatCurrency'; // Corrected import path
@@ -54,7 +55,7 @@ const noteOptions = [
 
 const Index = () => {
   const navigate = useNavigate();
-  const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  const [selectedCurrency, setSelectedCurrency] = useState("USD"); // Change default to USD
   const [billTo, setBillTo] = useState({ name: "", address: "", phone: "" });
   const [shipTo, setShipTo] = useState({ name: "", address: "", phone: "" });
   const [invoice, setInvoice] = useState({
@@ -95,13 +96,14 @@ const Index = () => {
       setItems(parsedData.items || []);
       settaxPercentage(parsedData.taxPercentage || 0);
       setNotes(parsedData.notes || "");
-      setSelectedCurrency(parsedData.selectedCurrency || "INR"); // Load selectedCurrency from localStorage
+      setSelectedCurrency(parsedData.selectedCurrency || "USD"); // Default to USD!
     } else {
       // If no saved data, set invoice number
       setInvoice((prev) => ({
         ...prev,
         number: generateRandomInvoiceNumber(),
       }));
+      setSelectedCurrency("USD"); // Also force USD on first load
     }
   }, []);
 
@@ -289,6 +291,7 @@ const Index = () => {
     settaxPercentage(10);
     calculateSubTotal();
     setNotes("Thank you for your business!");
+    setSelectedCurrency("USD"); // Also ensure USD when adding dummy data
   };
 
   const clearForm = () => {
@@ -303,6 +306,7 @@ const Index = () => {
     setItems([{ name: "", description: "", quantity: 0, amount: 0, total: 0 }]);
     settaxPercentage(0);
     setNotes("");
+    setSelectedCurrency("USD"); // Reset to USD when clearing
     localStorage.removeItem("formData");
   };
 
