@@ -2,8 +2,16 @@ import React from 'react';
 import FloatingLabelInput from './FloatingLabelInput';
 import { Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { formatCurrency, getCurrencySymbol } from '../utils/formatCurrency.js';
 
-const ItemDetails = ({ items, handleItemChange, addItem, removeItem }) => {
+const ItemDetails = ({ items, handleItemChange, addItem, removeItem, currencyCode: propCurrencyCode }) => {
+  let currencyCode = propCurrencyCode;
+  if (!currencyCode) {
+    console.warn("Warning: currencyCode prop not provided to ItemDetails. Defaulting to 'INR'.");
+    currencyCode = 'INR';
+  }
+  const currencySymbol = getCurrencySymbol(currencyCode);
+
   return (
     <div className="mb-6">
       <h2 className="text-2xl font-semibold mb-4">Item Details</h2>
@@ -25,14 +33,14 @@ const ItemDetails = ({ items, handleItemChange, addItem, removeItem }) => {
             />
             <FloatingLabelInput
               id={`itemAmount${index}`}
-              label="Amount (₹)"
+              label={`Amount (${currencySymbol})`}
               type="number"
               value={item.amount}
               onChange={(e) => handleItemChange(index, 'amount', parseFloat(e.target.value))}
             />
             <FloatingLabelInput
               id={`itemTotal${index}`}
-              label="Total (₹)"
+              label={`Total (${currencySymbol})`}
               type="number"
               value={(item.quantity * item.amount).toFixed(2)}
               disabled
