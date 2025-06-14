@@ -426,6 +426,7 @@ const Index = () => {
               handleItemChange={handleItemChange}
               addItem={addItem}
               removeItem={removeItem}
+              currencyCode={selectedCurrency}
             />
 
             <div className="mb-6">
