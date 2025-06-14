@@ -1,12 +1,20 @@
+
 import React from 'react';
 import FloatingLabelInput from './FloatingLabelInput';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Label } from "@/components/ui/label";
 
 const BillToSection = ({ billTo, handleInputChange, selectedCurrency, setSelectedCurrency }) => {
+  // Force USD - don't render the selector
+  // Optionally setSelectedCurrency('USD') if it's a setter from parent.
+  React.useEffect(() => {
+    if (setSelectedCurrency) setSelectedCurrency('USD');
+  }, [setSelectedCurrency]);
+
   return (
     <div className="mb-6">
-      <div className="mb-4">
+      {/* Remove the currency selection UI */}
+      {/* <div className="mb-4">
         <h3 className="text-lg font-medium mb-2">Select Currency</h3>
         <RadioGroup
           value={selectedCurrency}
@@ -22,7 +30,7 @@ const BillToSection = ({ billTo, handleInputChange, selectedCurrency, setSelecte
             <Label htmlFor="usd">USD ($)</Label>
           </div>
         </RadioGroup>
-      </div>
+      </div> */}
       <h2 className="text-2xl font-semibold mb-4">Bill To</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FloatingLabelInput

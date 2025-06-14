@@ -1,3 +1,4 @@
+
 import React from 'react';
 import FloatingLabelInput from './FloatingLabelInput';
 import { Trash2 } from 'lucide-react';
@@ -5,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { formatCurrency, getCurrencySymbol } from '../utils/formatCurrency.js';
 
 const ItemDetails = ({ items, handleItemChange, addItem, removeItem, currencyCode: propCurrencyCode }) => {
+  // Default to USD dollar if nothing passed.
   let currencyCode = propCurrencyCode;
   if (!currencyCode) {
-    console.warn("Warning: currencyCode prop not provided to ItemDetails. Defaulting to 'INR'.");
-    currencyCode = 'INR';
+    currencyCode = 'USD';
   }
   const currencySymbol = getCurrencySymbol(currencyCode);
 
