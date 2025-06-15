@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2, RefreshCw, FileText, RotateCw } from "lucide-react";
@@ -77,7 +78,8 @@ const ReceiptPage = () => {
   const [theme, setTheme] = useState("Receipt1");
   const [notes, setNotes] = useState("");
   const [footer, setFooter] = useState("Thank you");
-  const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  // Force selectedCurrency to always be USD:
+  const [selectedCurrency] = useState("USD");
 
   const refreshFooter = () => {
     const randomIndex = Math.floor(Math.random() * footerOptions.length);
@@ -97,16 +99,15 @@ const ReceiptPage = () => {
       setTaxPercentage(parsedData.taxPercentage || 0);
       setNotes(parsedData.notes || "");
       setFooter(parsedData.footer || "Thank you");
-      setSelectedCurrency(parsedData.selectedCurrency || "INR");
+      // Ignore any saved currency, always use USD
     } else {
-      // Initialize with default values if nothing in localStorage
       setInvoice((prev) => ({ ...prev, number: generateRandomInvoiceNumber() }));
       setItems([{ name: "", description: "", quantity: 0, amount: 0, total: 0 }]);
     }
   }, []);
 
   useEffect(() => {
-    // Save form data to localStorage whenever it changes
+    // Save form data to localStorage whenever it changes, always store USD as selectedCurrency
     const formData = {
       billTo,
       invoice,
@@ -116,15 +117,15 @@ const ReceiptPage = () => {
       taxPercentage,
       notes,
       footer,
-      selectedCurrency,
+      selectedCurrency: "USD", // always USD
     };
     localStorage.setItem("receiptFormData", JSON.stringify(formData));
-  }, [billTo, invoice, yourCompany, cashier, items, taxPercentage, notes, footer, selectedCurrency]);
+  }, [billTo, invoice, yourCompany, cashier, items, taxPercentage, notes, footer]);
 
   const handleDownloadPDF = async () => {
     if (!isDownloading && receiptRef.current) {
       setIsDownloading(true);
-      const receiptData = { // Prepare receiptData object
+      const receiptData = {
         billTo,
         invoice,
         yourCompany,
@@ -133,7 +134,7 @@ const ReceiptPage = () => {
         taxPercentage,
         notes,
         footer,
-        selectedCurrency,
+        selectedCurrency: "USD",
       };
       try {
         await generateReceiptPDF(receiptRef.current, theme, receiptData);
@@ -323,13 +324,14 @@ const ReceiptPage = () => {
               handleItemChange={handleItemChange}
               addItem={addItem}
               removeItem={removeItem}
+              currencyCode="USD"
             />
 
             <div className="mb-6">
               <h3 className="text-lg font-medium mb-2">Totals</h3>
               <div className="flex justify-between mb-2">
                 <span>Sub Total:</span>
-                <span>{formatCurrency(parseFloat(calculateSubTotal()), selectedCurrency)}</span>
+                <span>{formatCurrency(parseFloat(calculateSubTotal()), "USD")}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Tax (%):</span>
@@ -347,11 +349,11 @@ const ReceiptPage = () => {
               </div>
               <div className="flex justify-between mb-2">
                 <span>Tax Amount:</span>
-                <span>{formatCurrency(parseFloat(calculateTaxAmount()), selectedCurrency)}</span>
+                <span>{formatCurrency(parseFloat(calculateTaxAmount()), "USD")}</span>
               </div>
               <div className="flex justify-between font-bold">
                 <span>Grand Total:</span>
-                <span>{formatCurrency(parseFloat(calculateGrandTotal()), selectedCurrency)}</span>
+                <span>{formatCurrency(parseFloat(calculateGrandTotal()), "USD")}</span>
               </div>
             </div>
 
@@ -449,7 +451,7 @@ const ReceiptPage = () => {
                   taxPercentage,
                   notes,
                   footer,
-                  selectedCurrency,
+                  selectedCurrency: "USD",
                 }}
               />
             )}
@@ -464,7 +466,7 @@ const ReceiptPage = () => {
                   taxPercentage,
                   notes,
                   footer,
-                  selectedCurrency,
+                  selectedCurrency: "USD",
                 }}
               />
             )}
@@ -479,7 +481,7 @@ const ReceiptPage = () => {
                   taxPercentage,
                   notes,
                   footer,
-                  selectedCurrency,
+                  selectedCurrency: "USD",
                 }}
               />
             )}
@@ -493,7 +495,7 @@ const ReceiptPage = () => {
                   taxPercentage,
                   footer,
                   cashier,
-                  selectedCurrency,
+                  selectedCurrency: "USD",
                 }}
               />
             )}
