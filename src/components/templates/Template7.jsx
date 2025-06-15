@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { format } from 'date-fns';
 import BaseTemplate from './BaseTemplate';
@@ -11,7 +12,7 @@ const Template7 = ({ data }) => {
       <div className="bg-white p-8 max-w-4xl mx-auto">
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-4">Invoice</h1>
+            <h1 className="text-3xl font-bold mb-4 text-blue-600">Invoice</h1>
             <p>
               <span className="font-semibold">Invoice#:</span>{" "}
               {invoice.number || "N/A"}
@@ -30,21 +31,21 @@ const Template7 = ({ data }) => {
             </p>
           </div>
           <div className="text-right">
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-2xl font-bold text-blue-600">
               {yourCompany.name || "Your Company Name"}
             </h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 mb-8 bg-gray-100 p-4">
+        <div className="grid grid-cols-2 gap-8 mb-8 bg-blue-50 p-4">
           <div>
-            <h3 className="text-lg font-semibold mb-2">Billed by</h3>
+            <h3 className="text-lg font-semibold mb-2 text-blue-600">Billed by</h3>
             <p>{yourCompany.name || "Your Company Name"}</p>
             <p>{yourCompany.address || "Your Company Address"}</p>
             <p>{yourCompany.phone || "Your Company Phone"}</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-2">Billed to</h3>
+            <h3 className="text-lg font-semibold mb-2 text-blue-600">Billed to</h3>
             <p>{billTo.name || "Client Name"}</p>
             <p>{billTo.address || "Client Address"}</p>
             <p>{billTo.phone || "Client Phone"}</p>
@@ -52,7 +53,7 @@ const Template7 = ({ data }) => {
         </div>
 
         <table className="w-full mb-8">
-          <thead style={{ backgroundColor: "#4B4B4B", color: "white" }}>
+          <thead className="bg-blue-600 text-white">
             <tr>
               <th className="p-2 text-left">Item #/Item description</th>
               <th className="p-2 text-right">Qty.</th>
@@ -62,7 +63,7 @@ const Template7 = ({ data }) => {
           </thead>
           <tbody>
             {items.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+              <tr key={index} className={index % 2 === 0 ? "bg-blue-50" : ""}>
                 <td className="p-2">{item.name || "Item Name"}</td>
                 <td className="p-2 text-right">{item.quantity || 0}</td>
                 <td className="p-2 text-right">
@@ -88,14 +89,14 @@ const Template7 = ({ data }) => {
               </p>
             )}
             <p className="flex justify-between font-bold text-lg mt-2">
-              <span>Total:</span> <span>{formatCurrency(grandTotal, selectedCurrency)}</span>
+              <span>Total:</span> <span className="text-blue-600">{formatCurrency(grandTotal, selectedCurrency)}</span>
             </p>
           </div>
         </div>
 
         {notes && (
           <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-2">Terms:</h3>
+            <h3 className="text-lg font-semibold mb-2 text-blue-600">Terms:</h3>
             <p>{notes}</p>
           </div>
         )}
